@@ -1,15 +1,15 @@
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
-  name: queues.rabbitmq.bruno.io
+  name: exchanges.rabbitmq.bruno.io
 spec:
   group: rabbitmq.bruno.io
   names:
-    plural: queues
-    singular: queue
-    kind: Queue
+    plural: exchanges
+    singular: exchange
+    kind: Exchange
     shortNames:
-      - rq
+      - rx
   scope: Namespaced
   versions:
     - name: v1alpha1
@@ -24,24 +24,13 @@ spec:
               properties:
                 name:
                   type: string
+                type:
+                  type: string
+                  enum: ["direct", "fanout", "topic", "headers"]
                 durable:
                   type: boolean
                 autoDelete:
                   type: boolean
-                arguments:
-                  type: object
-                  additionalProperties: true
-                connection:
-                  type: object
-                  properties:
-                    secretRef:
-                      type: object
-                      properties:
-                        name:
-                          type: string
-                        key:
-                          type: string
-              required:
-                - name
+              required: ["name", "type"]
       subresources:
         status: {}

@@ -1,9 +1,7 @@
 import kopf
+from handlers import queue, exchange
 import logging
-from handlers import queue
 
 @kopf.on.startup()
-def startup(settings: kopf.OperatorSettings, **_):
-    settings.posting.level = logging.INFO 
-
-
+def configure(settings: kopf.OperatorSettings, **_):
+    settings.posting.level = logging.INFO
