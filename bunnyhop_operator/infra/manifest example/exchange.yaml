@@ -1,0 +1,9 @@
+apiVersion: rabbitmq.bruno.io/v1alpha1
+kind: Exchange
+metadata:
+  name: minha-exchange
+spec:
+  name: minha.exchange
+  type: direct
+  durable: true
+  autoDelete: false
