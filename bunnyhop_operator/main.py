@@ -1,5 +1,5 @@
 import kopf
-from handlers import queue, exchange
+from handlers import queue, exchange, binding
 import logging
 
 @kopf.on.startup()
