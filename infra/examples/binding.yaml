@@ -5,4 +5,4 @@ metadata:
 spec:
   exchange: minha.exchange
   queue: fila.notificacoes
-  routingKey: notificacoes
+  routingKey: notificacoes2222
