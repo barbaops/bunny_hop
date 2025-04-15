@@ -1,0 +1,8 @@
+apiVersion: rabbitmq.bruno.io/v1alpha1
+kind: Binding
+metadata:
+  name: bind-fila-notificacoes
+spec:
+  exchange: minha.exchange
+  queue: fila.notificacoes
+  routingKey: notificacoes
