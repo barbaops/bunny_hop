@@ -12,10 +12,10 @@
 
 ## ✨ Recursos Suportados
 
-- ✅ Filas (`Queue`)
-- ✅ Exchanges (`Exchange`)
-- ✅ Bindings (`Binding`)
-- ✅ Shovels (`Shovel`)
+- ✅ Filas (`Queue` - _Alias rq_)
+- ✅ Exchanges (`Exchange` - _Alias rx_)
+- ✅ Bindings (`Binding` - _Alias rb_)
+- ✅ Shovels (`Shovel` - _Alias rsh_)
 - ✅ Exclusão automática com `kubectl delete`
 - ✅ Conexão via `Secrets`
 
