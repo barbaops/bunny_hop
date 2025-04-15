@@ -1,0 +1,21 @@
+apiVersion: rabbitmq.bruno.io/v1alpha1
+kind: Queue
+metadata:
+  name: qu-synced
+spec:
+  name: qu.synced
+  durable: true
+  autoDelete: false
+  arguments:
+    x-message-ttl: 60000
+---
+apiVersion: rabbitmq.bruno.io/v1alpha1
+kind: Queue
+metadata:
+  name: qu-test
+spec:
+  name: qu.test
+  durable: true
+  autoDelete: false
+  arguments:
+    x-message-ttl: 60000

@@ -10,7 +10,7 @@ async def create_binding(spec, namespace, logger, **kwargs):
     queue_name = spec['queue']
     routing_key = spec['routingKey']
 
-    secret_name = os.getenv("RABBITMQ_CONN_SECRET_NAME", "bunnyhop-rabbitmq-connection")
+    secret_name = os.getenv("RABBITMQ_CONN_SECRET_NAME", "bunnyhop-operator-con")
     secret_key = os.getenv("RABBITMQ_CONN_SECRET_KEY", "uri")
     k8s = kubernetes.client.CoreV1Api()
     secret = k8s.read_namespaced_secret(secret_name, namespace)
@@ -35,7 +35,7 @@ async def delete_binding(spec, name, namespace, logger, **kwargs):
     routing_key = spec["routingKey"]
 
     try:
-        secret_name = os.getenv("RABBITMQ_CONN_SECRET_NAME", "bunnyhop-rabbitmq-connection")
+        secret_name = os.getenv("RABBITMQ_CONN_SECRET_NAME", "bunnyhop-operator-con")
         secret_key = os.getenv("RABBITMQ_CONN_SECRET_KEY", "uri")
         k8s = kubernetes.client.CoreV1Api()
         secret = k8s.read_namespaced_secret(secret_name, namespace)

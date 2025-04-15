@@ -11,7 +11,7 @@ async def create_exchange(spec, namespace, logger, **kwargs):
     durable = spec.get('durable', True)
     auto_delete = spec.get('autoDelete', False)
 
-    secret_name = os.getenv("RABBITMQ_CONN_SECRET_NAME", "bunnyhop-rabbitmq-connection")
+    secret_name = os.getenv("RABBITMQ_CONN_SECRET_NAME", "bunnyhop-operator-con")
     secret_key = os.getenv("RABBITMQ_CONN_SECRET_KEY", "uri")
     k8s = kubernetes.client.CoreV1Api()
     secret = k8s.read_namespaced_secret(secret_name, namespace)
@@ -34,7 +34,7 @@ async def create_exchange(spec, namespace, logger, **kwargs):
 async def delete_queue(spec, name, namespace, logger, **kwargs):
     exchange_name = spec.get('name', name)
 
-    secret_name = os.getenv("RABBITMQ_CONN_SECRET_NAME", "bunnyhop-rabbitmq-connection")
+    secret_name = os.getenv("RABBITMQ_CONN_SECRET_NAME", "bunnyhop-operator-con")
     secret_key = os.getenv("RABBITMQ_CONN_SECRET_KEY", "uri")
 
     k8s_client = kubernetes.client.CoreV1Api()
