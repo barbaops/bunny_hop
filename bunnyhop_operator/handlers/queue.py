@@ -44,3 +44,25 @@ async def create_queue(spec, name, namespace, logger, **kwargs):
 
     logger.info(f"Queue '{queue_name}' created.")
     return {"queue": queue_name, "status": "created"}
+
+@kopf.on.delete('rabbitmq.bruno.io', 'v1alpha1', 'queues')
+async def delete_queue(spec, name, namespace, logger, **kwargs):
+    queue_name = spec.get('name', name)
+
+    secret_name = os.getenv("RABBITMQ_CONN_SECRET_NAME", "bunnyhop-rabbitmq-connection")
+    secret_key = os.getenv("RABBITMQ_CONN_SECRET_KEY", "uri")
+
+    k8s_client = kubernetes.client.CoreV1Api()
+    secret = k8s_client.read_namespaced_secret(secret_name, namespace)
+    rabbit_url = base64.b64decode(secret.data[secret_key]).decode()
+
+    try:
+        connection = await aio_pika.connect_robust(rabbit_url)
+        channel = await connection.channel()
+
+        await channel.queue_delete(queue_name)
+        logger.info(f"Queue '{queue_name}' deleted.")
+        await connection.close()
+    except Exception as e:
+        logger.error(f"Erro ao deletar fila '{queue_name}': {e}")
+        raise kopf.TemporaryError(f"Erro ao deletar fila '{queue_name}'", delay=30)
