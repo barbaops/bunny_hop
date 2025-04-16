@@ -1,11 +1,11 @@
 # 🐰 BunnyHop Operator
 
-![version](https://img.shields.io/badge/version-0.2.0-blue)
+![version](https://img.shields.io/badge/version-0.1.0-blue)
 ![status](https://img.shields.io/badge/status-active-brightgreen)
 ![license](https://img.shields.io/badge/license-MIT-yellow)
 ![RabbitMQ](https://img.shields.io/badge/RabbitMQ-supported-orange)
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-CRD--based-blueviolet)
-
+![Project Status](https://img.shields.io/badge/status-v0.1.0--alpha-blue?style=flat-square&logo=RabbitMQ&logoColor=white)
 > Operator Kubernetes para criação e gerenciamento de recursos RabbitMQ via CRDs. Desenvolvido com 🧠 [Kopf](https://kopf.readthedocs.io) + 🐍 Python.
 
 ---
@@ -142,16 +142,79 @@ kubectl delete queue fila-notificacoes
 
 ---
 
-## 🚀 Roadmap
+# 🗺️ BunnyHop Operator – Roadmap Técnico
 
-- [x] Queue
-- [x] Exchange
-- [x] Binding
-- [x] Shovel
-- [ ] Helm Chart oficial
-- [ ] VHost, Users, Policies
-- [ ] Observabilidade Prometheus
-- [ ] ArgoCD-ready
+O BunnyHop é um operador Kubernetes para criação, gerenciamento e sincronização de recursos do RabbitMQ como filas, exchanges, bindings e shovels.
+
+Este roadmap apresenta as funcionalidades planejadas para evolução do projeto.
+
+---
+
+## ✅ Versão Atual – `v0.1.0`
+
+- [x] Criação de filas (`Queue`)
+- [x] Criação de exchanges (`Exchange`)
+- [x] Criação de bindings (`Binding`)
+- [x] Criação de shovels (`Shovel`)
+- [x] Deleção de todos os recursos
+- [x] Helm Chart inicial
+- [x] Suporte a conexão via Secret
+- [x] Lógica de sincronização com verificação básica (em desenvolvimento)
+
+---
+
+## 🚀 `v0.2.0` – Validações e observabilidade
+
+- [ ] ✅ Validações via JSONSchema no CRD (ex: TTL mínimo/máximo, nomes válidos)
+- [ ] ✅ Atualização de fila via `@kopf.on.update`
+- [ ] ✅ Exibição do campo `SYNC` ao rodar `kubectl get queue`
+- [ ] 🔍 Integração com RabbitMQ Management API para exibir:
+  - TTL real
+  - Número de mensagens
+  - Quantidade de consumers
+- [ ] 🎯 Implementar métricas Prometheus:
+  - `bunnyhop_queue_created_total`
+  - `bunnyhop_queue_sync_status{status="synced"}`
+- [ ] 📢 Adicionar eventos no recurso (`kubectl describe queue`)
+
+---
+
+## 🛠️ `v0.3.0` – Auto-healing e controle granular
+
+- [ ] 🔁 Auto-healing: se estiver fora de sync, recriar o recurso com a configuração correta
+- [ ] 🔐 Suporte a múltiplos Secrets/vhosts por Namespace
+- [ ] 🔒 Controle de acesso baseado em Namespace (RBAC + Policy de criação)
+
+---
+
+## 🎛️ `v0.4.0` – Templates e componentes avançados
+
+- [ ] 📦 `QueueTemplate` e `ExchangeTemplate` reutilizáveis
+- [ ] 🔁 Suporte a políticas DLQ, Retry e TTL Chains
+- [ ] ✏️ Possibilidade de `annotations` como `bunnyhop.io/skip-if-exists`
+
+---
+
+## 🌍 `v1.0.0` – Pronto para produção
+
+- [ ] CLI opcional: `kubectl bunnyhop`
+- [ ] Documentação pública com exemplos completos
+- [ ] Validação contínua em CI/CD (GitHub Actions)
+- [ ] Upload do Helm Chart no ArtifactHub
+- [ ] Suporte a Federation Links e Peerings RabbitMQ (opcional)
+
+---
+
+## 🧪 Ideias Futuras
+
+- 🔧 Reconciliadores inteligentes com diffs parciais (evita recreação completa)
+- 📲 Dashboard Web de visualização dos CRs e status
+- 🪄 Wizard Helm para criar CRs interativos
+
+---
+
+> 💬 Contribuições e sugestões são bem-vindas! [Abra um issue ou envie um PR 🚀](https://github.com/seuprojeto/bunnyhop)
+
 
 ---
 
@@ -159,5 +222,3 @@ kubectl delete queue fila-notificacoes
 
 MIT © 2025 - BunnyHop Project by [@bruno](https://github.com/seu-usuario)
 
-# Created By
-Wallace Bruno Gentil - Chwiee
