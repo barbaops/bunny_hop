@@ -19,3 +19,15 @@ spec:
   autoDelete: false
   arguments:
     x-message-ttl: 60000
+---
+apiVersion: rabbitmq.bruno.io/v1alpha1
+kind: Queue
+metadata:
+  name: teste-couto
+spec:
+  name: qu.teste-couto
+  durable: false
+  autoDelete: false
+  arguments:
+    x-message-ttl: 60000
+  

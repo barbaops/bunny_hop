@@ -4,21 +4,20 @@ import os
 import base64
 import kubernetes
 
+from utils.rabbitmq_conn import RabbitMQConnectionFactory
+
+
 @kopf.on.create('rabbitmq.bruno.io', 'v1alpha1', 'exchanges')
 async def create_exchange(spec, namespace, logger, **kwargs):
+    factory = RabbitMQConnectionFactory(namespace)
+    connection = await factory.get_connection()
+    channel = await connection.channel()
+
     exchange_name = spec['name']
     exchange_type = spec['type']
     durable = spec.get('durable', True)
     auto_delete = spec.get('autoDelete', False)
 
-    secret_name = os.getenv("RABBITMQ_CONN_SECRET_NAME", "bunnyhop-operator-con")
-    secret_key = os.getenv("RABBITMQ_CONN_SECRET_KEY", "uri")
-    k8s = kubernetes.client.CoreV1Api()
-    secret = k8s.read_namespaced_secret(secret_name, namespace)
-    rabbit_url = base64.b64decode(secret.data[secret_key]).decode()
-
-    connection = await aio_pika.connect_robust(rabbit_url)
-    channel = await connection.channel()
     await channel.declare_exchange(
         name=exchange_name,
         type=exchange_type,
@@ -27,27 +26,20 @@ async def create_exchange(spec, namespace, logger, **kwargs):
     )
     await connection.close()
     logger.info(f"Exchange '{exchange_name}' created.")
-    return {"exchange": exchange_name, "status": "created"}
 
 
 @kopf.on.delete('rabbitmq.bruno.io', 'v1alpha1', 'exchanges')
 async def delete_queue(spec, name, namespace, logger, **kwargs):
+    factory = RabbitMQConnectionFactory(namespace)
+    connection = await factory.get_connection()
+    channel = await connection.channel()
+
     exchange_name = spec.get('name', name)
 
-    secret_name = os.getenv("RABBITMQ_CONN_SECRET_NAME", "bunnyhop-operator-con")
-    secret_key = os.getenv("RABBITMQ_CONN_SECRET_KEY", "uri")
-
-    k8s_client = kubernetes.client.CoreV1Api()
-    secret = k8s_client.read_namespaced_secret(secret_name, namespace)
-    rabbit_url = base64.b64decode(secret.data[secret_key]).decode()
-
     try:
-        connection = await aio_pika.connect_robust(rabbit_url)
-        channel = await connection.channel()
-
         await channel.exchange_delete(exchange_name)
-        logger.info(f"Queue '{exchange_name}' deleted.")
+        logger.info(f"Exchange '{exchange_name}' deleted.")
         await connection.close()
     except Exception as e:
-        logger.error(f"Erro ao deletar fila '{exchange_name}': {e}")
-        raise kopf.TemporaryError(f"Erro ao deletar fila '{exchange_name}'", delay=30)
+        logger.error(f"Erro ao deletar exchange '{exchange_name}': {e}")
+        raise kopf.TemporaryError(f"Erro ao deletar exchange '{exchange_name}'", delay=30)

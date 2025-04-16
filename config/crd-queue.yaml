@@ -8,6 +8,8 @@ spec:
     plural: queues
     singular: queue
     kind: Queue
+    shortNames:
+      - rq
   scope: Namespaced
   versions:
     - name: v1alpha1

@@ -5,6 +5,7 @@ import aiohttp
 import aio_pika
 import kubernetes
 
+
 @kopf.on.create('rabbitmq.bruno.io', 'v1alpha1', 'shovels')
 async def create_shovel(spec, namespace, logger, **kwargs):
     shovel_name = kwargs['meta']['name']
