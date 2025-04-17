@@ -165,9 +165,9 @@ Este roadmap apresenta as funcionalidades planejadas para evolução do projeto.
 
 - [ ] ✅ Validações via JSONSchema no CRD (ex: TTL mínimo/máximo, nomes válidos)
   - [x] Queue
-  - [] Exchange
-  - [] Binding
-  - [] Shovel
+  - [ ] Exchange
+  - [ ] Binding
+  - [ ] Shovel
 - [ ] ✅ Atualização de Recursos via `@kopf.on.update`
 - [ ] ✅ Exibição do campo `SYNC` ao rodar `kubectl get`
 - [ ] 🔍 Integração com RabbitMQ Management API para exibir dados como por exemplo:
