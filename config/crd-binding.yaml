@@ -16,6 +16,8 @@ spec:
     - name: v1alpha1
       served: true
       storage: true
+      subresources:
+        status: {}
       schema:
         openAPIV3Schema:
           type: object
@@ -30,5 +32,4 @@ spec:
                 routingKey:
                   type: string
               required: ["exchange", "queue", "routingKey"]
-      subresources:
-        status: {}
+
