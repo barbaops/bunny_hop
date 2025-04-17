@@ -28,10 +28,20 @@ spec:
               properties:
                 name:
                   type: string
+                  minLength: 1
+                  maxLength: 255
+                  pattern: '^qu.[a-zA-Z0-9_.-]+$'  # Queue name init with qu
                 durable:
                   type: boolean
+                  default: true
                 autoDelete:
                   type: boolean
+                  default: false
                 arguments:
                   type: object
-                  additionalProperties: true
+                  additionalProperties:
+                    type: string
+                x-message-ttl:
+                  type: integer
+                  minimum: 1000        # mínimo 1s
+                  maximum: 604800000   # máximo 7 dias em ms

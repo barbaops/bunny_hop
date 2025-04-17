@@ -13,6 +13,14 @@ async def create_queue(spec, name, namespace, logger, **kwargs):
     connection = await factory.get_connection()
     channel = await connection.channel()
 
+    arguments = spec.get("arguments", {})
+
+    if "x-message-ttl" in arguments:
+        try:
+            arguments["x-message-ttl"] = int(arguments["x-message-ttl"])
+        except ValueError:
+            raise kopf.PermanentError("O valor de x-message-ttl deve ser um número inteiro.")
+
     await channel.declare_queue(
         name=spec.get("name", name),
         durable=spec.get("durable", True),
