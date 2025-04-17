@@ -142,22 +142,76 @@ kubectl delete queue fila-notificacoes
 
 ---
 
-## 🚀 Roadmap
+# 🗺️ BunnyHop Operator – Roadmap Técnico
 
-- [x] Queue
-- [x] Exchange
-- [x] Binding
-- [x] Shovel
-- [ ] Helm Chart oficial
-- [ ] VHost, Users, Policies
-- [ ] Observabilidade Prometheus
-- [ ] ArgoCD-ready
+Este roadmap apresenta as funcionalidades planejadas para evolução do projeto.
+
+---
+
+## ✅ Versão Atual – `v0.1.0`
+
+- [x] Criação de filas (`Queue`)
+- [x] Criação de exchanges (`Exchange`)
+- [x] Criação de bindings (`Binding`)
+- [x] Criação de shovels (`Shovel`)
+- [x] Deleção de todos os recursos
+- [x] Helm Chart inicial
+- [x] Suporte a conexão via Secret
+- [x] Lógica de sincronização com verificação básica (em desenvolvimento)
+
+---
+
+## 🚀 `v0.2.0` – Validações e observabilidade
+
+- [ ] ✅ Validações via JSONSchema no CRD (ex: TTL mínimo/máximo, nomes válidos)
+  - [x] Queue
+  - [] Exchange
+  - [] Binding
+  - [] Shovel
+- [ ] ✅ Atualização de Recursos via `@kopf.on.update`
+- [ ] ✅ Exibição do campo `SYNC` ao rodar `kubectl get`
+- [ ] 🔍 Integração com RabbitMQ Management API para exibir dados como por exemplo:
+  - TTL real
+  - Número de mensagens
+  - Quantidade de consumers
+- [ ] 🎯 Implementar métricas Prometheus:
+  - `bunnyhop_queue_created_total`
+  - `bunnyhop_queue_sync_status{status="synced"}`
+- [ ] 📢 Adicionar eventos no recurso (`kubectl describe`)
+
+---
+
+## 🛠️ `v0.3.0` – Auto-healing e controle granular
+
+- [ ] 🔁 Auto-healing: se estiver fora de sync, recriar o recurso com a configuração correta
+- [ ] 🔐 Suporte a múltiplos Secrets/vhosts por Namespace
+- [ ] 🔒 Controle de acesso baseado em Namespace (RBAC + Policy de criação)
+
+---
+
+## 🎛️ `v0.4.0` – Templates e componentes avançados
+
+- [ ] 📦 `QueueTemplate` e `ExchangeTemplate` reutilizáveis
+- [ ] 🔁 Suporte a políticas DLQ, Retry e TTL Chains
+- [ ] ✏️ Possibilidade de `annotations` como `bunnyhop.io/skip-if-exists`
+
+---
+
+## 🌍 `v1.0.0` – Pronto para produção
+
+- [ ] CLI opcional: `kubectl bunnyhop`
+- [ ] Documentação pública com exemplos completos
+- [ ] Validação contínua em CI/CD (GitHub Actions)
+- [ ] Upload do Helm Chart no ArtifactHub
+- [ ] Suporte a Federation Links e Peerings RabbitMQ (opcional)
+
+---
+
+> 💬 Contribuições e sugestões são bem-vindas! [Abra um issue ou envie um PR 🚀](https://github.com/seuprojeto/bunnyhop)
+
 
 ---
 
 ## 🛡️ Licença
 
-MIT © 2025 - BunnyHop Project by [@bruno](https://github.com/seu-usuario)
-
-# Created By
-Wallace Bruno Gentil - Chwiee
+MIT © 2025 - BunnyHop Project by [@bruno](https://github.com/barbaops)
